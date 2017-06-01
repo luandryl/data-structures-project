@@ -56,14 +56,14 @@ void impress_2d_queue(Queue_2D *q){
 
 /*
   alloc_2D 
-  Receive a pointer to file already open and put the he on 
+  Receive a pointer to file already open and put he on 
   right position(after NODE_COORD_SECTION) to read the data of filestream 
 */
 void alloc_2D (FILE *tsblib_file) {
   char str[128], city[2], x[55], y[55]; //strings that fscanf will copy the info of filestram 
   /*
     do while => because FILE *tsblib_file recived can be right in the next line, so
-   in this case we find first NODE_COORD_SECTION and break the loop
+    In this case we find first NODE COORD_SECTION and we break the loop without iteration
   */
   do {  
     if(!strcmp(str, "NODE_COORD_SECTION")) { // compare
