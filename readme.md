@@ -39,6 +39,6 @@ As interfaces são responsáveis por:
 
 # TODO
 ***
-* 3D_interface.c
+* 3D_interface.c -- TEST
 * explicit_interface.c
 * definir um método de otimização pra encontrar o menor caminho;
