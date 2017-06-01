@@ -60,7 +60,7 @@ void impress_2d_queue(Queue_2D *q){
   right position(after NODE_COORD_SECTION) to read the data of filestream 
 */
 void alloc_2D (FILE *tsblib_file) {
-  char str[128], city[2], x[55], y[55]; //strings that fscanf will copy the info of filestram 
+  char str[128], city[2], x[55], y[55]; //strings that fscanf will copy the data of filestram 
   /*
     do while => because FILE *tsblib_file recived can be right in the next line, so
     In this case we find first NODE COORD_SECTION and we break the loop without iteration
