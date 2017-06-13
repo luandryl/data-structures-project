@@ -3,8 +3,8 @@ typedef struct euc_3d {
   
   int city;
   float x, y, z;
-  struct euc_3D *next;
-  struct euc_3D *prev;
+  struct euc_3d *next;
+  struct euc_3d *prev;
 
 }EUC_3D;
 
@@ -17,7 +17,7 @@ typedef struct queue_3D{
 }Queue_3D;
 
 // create and return a pointer type Queue_3D
-Queue_3D * create_queue () {
+Queue_3D * create_queue3D () {
   return (Queue_3D *)malloc(sizeof(Queue_3D));
 }
 
@@ -73,7 +73,7 @@ void alloc_3D (FILE *tsblib_file) {
     }
   } while (fscanf(tsblib_file, "%s", str) != EOF);
 
-  Queue_3D *q = create_queue(); // create new queue
+  Queue_3D *q = create_queue3D(); // create new queue
 
   /*
     read and create a queue with filestream data;
