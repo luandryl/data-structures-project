@@ -1,4 +1,5 @@
 #include <math.h>
+#include <time.h>
 // EUC_2D data structure
 typedef struct euc_2d {
   
@@ -88,52 +89,67 @@ Queue_2D * alloc_2D (FILE *tsblib_file) {
 
 }
 
-EUC_2D * search_city (Queue_2D *data, int city) {
-  
-  EUC_2D *iterator = data->start;
+EUC_2D * search_2d (EUC_2D *array, int city) {
+  EUC_2D *iterator = array;
 
-  while(iterator != NULL && iterator->city != city)
-		iterator = iterator->next;
+  while (iterator != NULL && iterator->city != city)
+    iterator = iterator->next;
   
-  return iterator;
-	
+    return iterator;
 }
 
-float calc_distance_2d (Queue_2D *data, int c1, int c2) {
-  
-  EUC_2D *city1 = search_city(data, c1);
-
-  EUC_2D *city2 = search_city(data, c2);
-
+float cost_calc_2d (EUC_2D *city1, EUC_2D *city2) {
   return sqrt(pow((city1->x - city2->x), 2) + pow((city1->y - city2->y), 2));
-
 }
 
+EUC_2D * find_near_2d (Queue_2D *data, int limit, char direction, EUC_2D *random_start) {
+  
+  EUC_2D *iterator = NULL;
+  float dh = 0, d0 = 0; 
+  EUC_2D *near = NULL;
 
-void impress_cost_matrix (float **matrix, int size) {
-  int i,j;
-  for(i = 0; i < size; i++) {
-      for(j = 0; j < size; j++)
-        printf("%.3f \t", matrix[i][j]);
+  d0 = (random_start->next != NULL) ? cost_calc_2d(random_start, random_start->next): cost_calc_2d(random_start, random_start->prev);
+  if (direction == 'f') {
+    
+    iterator = data->start;
+    while (iterator != NULL && iterator->city < limit) {
+      dh = cost_calc_2d(random_start, iterator);
+      if (dh < d0)
+        near = iterator;
       
-      printf("\n");
+      iterator = iterator->next;
     }
+
+  } else {
+    iterator = data->end;
+    while (iterator != NULL && iterator->city > limit) {
+      dh = cost_calc_2d(random_start, iterator);
+      if (dh < d0)
+        near = iterator;
+      
+      iterator = iterator->prev;
+    }
+  }
+
+  return near;
 }
 
-void cost_matrix_2d (Queue_2D *data) {
+void draw_path_2d(Queue_2D *data) {
 
-  int i,j;
-  float **matrix = (float **)malloc(data->size * sizeof(float*));
-  for(int i = 0; i < data->size; i++) matrix[i] = (float *)malloc(data->size * sizeof(float));
-  printf("%p", matrix);
+  for (int i = 0; i < data->size; i++) {
+    int r_s = (1+rand() % data->size-1);
+    int up = r_s + data->size / 4;
+    int down = fabsf(r_s - data->size / 4);
+    
+    EUC_2D *rand_start_node = search_2d(data->start, r_s);
 
-  for(i = 0; i < data->size; i++)
-    for(j = 0; j < data->size; j++)
-      if (i == j)
-        matrix[i][j] = 0;
-      else 
-        matrix[i][j] = calc_distance_2d(data,i,j);
+    EUC_2D *h1 = find_near_2d(data, down, 'r', rand_start_node);
+
+     printf("R_S:[%d] \t I [%d] \n", r_s, i);
+    // printf("H1,c:[%d] \n", h1->city);
+    // printf("SN,c:[%d] \n", rand_start_node->city);
+    // printf("\n Sp[%d]  - \t In[%d] = [%d] \n\n\n", up, down, (up - down));
+  }
   
-  impress_cost_matrix(matrix, data->size);
-  
+
 }

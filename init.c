@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 // 2d_interface
 #include "2D_interface.c"
 #include "3D_interface.c"
@@ -9,6 +10,7 @@
 int main (int argc, char *argv[]) {
   
   Queue_2D *data = NULL;
+  srand (time(NULL));
 
   // pointer to file
   FILE *open_file = fopen(argv[1], "r");
@@ -36,9 +38,7 @@ int main (int argc, char *argv[]) {
   fclose(open_file); // close file
   if (data != NULL) {
     printf("Queue Allocated ... Starting to solve %d ", data->size);
-    
-    cost_matrix_2d(data);
-
+    draw_path_2d(data);
   }
 
 
